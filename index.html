@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KirosyaLinks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(to bottom, #f3f4f6, #e5e7eb);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 24rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            gap: 1rem;
+        }
+
+        .profile-info {
+            text-align: center;
+        }
+
+        .profile-info h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .profile-info p {
+            margin-top: 0.5rem;
+            color: #6b7280;
+        }
+
+        .search-container {
+            width: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #3b82f6;
+        }
+
+        .clear-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
+            color: #6b7280;
+        }
+
+        .clear-button:hover {
+            color: #111827;
+        }
+
+        .links-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: .25rem;
+        }
+
+        .link-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            line-height: 1.5rem;
+            font-weight: 500;
+            padding: 0.75rem 1rem;
+            background-color: white;
+            color: #111827;
+            border: 1px solid #d1d5db;
+            transition: background-color 0.2s, border-color 0.2s;
+            text-decoration: none;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .link-button:hover {
+            background-color: #f3f4f6;
+        }
+
+        .link-button:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 2px #3b82f6;
+        }
+
+        #loading-message, #error-message {
+            text-align: center;
+            color: #6b7280;
+        }
+
+        #error-message {
+            color: #ef4444;
+        }
+
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-close{
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
+            color: #111827;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            max-width: 90%;
+            width: 24rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .popup-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .popup-description {
+            margin-bottom: 1rem;
+            color: #4b5563;
+        }
+
+        .popup-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .popup-button {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .popup-button-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .popup-button-primary:hover {
+            background-color: #2563eb;
+        }
+
+        .popup-button-secondary {
+            background-color: #e5e7eb;
+            color: #111827;
+        }
+
+        .popup-button-secondary:hover {
+            background-color: #d1d5db;
+        }
+    </style>
+    <link rel="stylesheet" href="https://runbase.glitch.me/links.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-content">
+                <div class="profile-info">
+                    <h1>KirosyaAffiliate</h1>
+                    <p>reference and affiliate codes</p>
+                </div>
+
+                <div class="search-container">
+                    <input type="text" id="search-input" class="search-input" placeholder="Search links...">
+                    <button id="clear-button" class="clear-button" style="display: none;">✖</button>
+                </div>
+
+                <div id="links-container" class="links-container">
+                    <p id="loading-message">Loading links...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const linksContainer = document.getElementById('links-container');
+    const loadingMessage = document.getElementById('loading-message');
+    const searchInput = document.getElementById('search-input');
+    const clearButton = document.getElementById('clear-button');
+    let allLinks = [];
+
+    fetch('https://runbase.glitch.me/links.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            loadingMessage.remove();
+            allLinks = data.links;
+            displayLinks(allLinks);
+        })
+        .catch(error => {
+            console.error('Error fetching the links:', error);
+            loadingMessage.textContent = 'Failed to load links. Please try again later.';
+            loadingMessage.id = 'error-message';
+        });
+
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredLinks = allLinks.filter(link => link.title.toLowerCase().includes(searchTerm));
+        displayLinks(filteredLinks);
+
+        clearButton.style.display = searchInput.value ? 'inline' : 'none';
+    });
+
+    clearButton.addEventListener('click', () => {
+        searchInput.value = '';
+        clearButton.style.display = 'none';
+        displayLinks(allLinks);
+    });
+
+    function displayLinks(links) {
+        linksContainer.innerHTML = '';
+        if (links.length === 0) {
+            linksContainer.innerHTML = '<p>No links found.</p>';
+            return;
+        }
+        links.forEach(link => {
+            const linkButton = document.createElement('button');
+            linkButton.className = 'link-button';
+            linkButton.textContent = link.title;
+            linkButton.addEventListener('click', () => showPopup(link));
+            linksContainer.appendChild(linkButton);
+        });
+    }
+});
+
+function showPopup(link) {
+    const popup = document.createElement('div');
+    popup.className = 'popup';
+    popup.innerHTML = `
+        <div class="popup-content">
+            <div style="display: flex;justify-content: space-between;"><h2 class="popup-title">${link.title}</h2> <p class="popup-close">✖</p></div>
+            <p class="popup-description">${link.description || 'No description available.'}</p>
+            <div class="popup-buttons">
+                <button class="popup-button popup-button-primary" onclick="window.open('http://ouo.io/qs/iLw8gjsf?s=${link.url}', '_blank')">Go to Link</button>
+                ${link.refcode ? `<button class="popup-button popup-button-secondary" onclick="copyRefCode(this, '${link.refcode}')">Copy Code: ${link.refcode}</button>` : ''}
+            </div>
+        </div>
+    `;
+    document.body.appendChild(popup);
+
+    popup.addEventListener('click', (e) => {
+        if (e.target === popup) {
+            popup.remove();
+        }
+    });
+
+    const closeButton = popup.querySelector('.popup-close');
+    closeButton.addEventListener('click', () => {
+        popup.remove();
+    });
+}
+
+function copyRefCode(button, refcode) {
+    navigator.clipboard.writeText(refcode).then(() => {
+        const originalText = button.textContent;
+        button.textContent = 'Copied!';
+        button.disabled = true;
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.disabled = false;
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy ref code: ', err);
+        alert('Failed to copy ref code. Please try again.');
+    });
+}
+</script>
+
+<script src="https://runbase.glitch.me/links.js"></script>
+
+<meta name="google-adsense-account" content="ca-pub-9944004180654653">
+<meta name="6a97888e-site-verification" content="19b4d062a51e136bfeb250070d67493e">
+<script src="js/9311-js-jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script async src="js/js-adsbygoogle.js" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9944004180654653" crossorigin="anonymous"></script>
+<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
+<ins class="eas6a97888e14" data-zoneid="5407380"></ins> 
+<script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
+<ins class="eas6a97888e42" data-zoneid="5407028"></ins> 
+<script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
+<ins class="eas6a97888e17" data-zoneid="5407020"></ins> 
+<script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+</body>
+</html>
