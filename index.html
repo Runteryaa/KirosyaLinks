@@ -292,8 +292,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearButton = document.getElementById('clear-button');
     const container = document.querySelector('.container');
     let allLinks = [];
-    const primaryURL = 'https://runbase.glitch.me/links.json';
-    const fallbackURL = 'https://kirosya.online/backup.json';
+    const primaryURL = 'https://kirosya.xyz/links.json';
+    const fallbackURL = 'https://raw.githubusercontent.com/Runteryaa/KirosyaLinks/refs/heads/main/links.json';
 
     function fetchLinks(url) {
         return fetch(url)
