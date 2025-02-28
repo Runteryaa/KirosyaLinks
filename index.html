@@ -330,8 +330,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function adjustBodyHeight() {
         const containerHeight = container.offsetHeight;
         document.body.style.height = `${containerHeight}px`;
+	console.log("bh")
     }
-    setTimeout(() => adjustBodyHeight(), 2000);
+    setInterval(() => adjustBodyHeight(), 2000);
+    adjustBodyHeight()
 
     searchInput.addEventListener('input', () => {
         const searchTerm = searchInput.value.toLowerCase();
