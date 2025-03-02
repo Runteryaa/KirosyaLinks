@@ -423,7 +423,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	adjustBodyHeight();
     }
 
-    const useOuo = false
+    const useOuo = true
+	console.log(useOuo)
     document.querySelectorAll('.popup-button-primary').forEach(button => {
         button.addEventListener('click', function() {
             const url = this.dataset.url;
