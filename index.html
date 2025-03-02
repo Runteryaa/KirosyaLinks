@@ -422,26 +422,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 	adjustBodyHeight();
     }
-
-    const useOuo = true
-	console.log(useOuo)
-    document.querySelectorAll('.popup-button-primary').forEach(button => {
-        button.addEventListener('click', function() {
-            const url = this.dataset.url;
-            const useOuo = this.dataset.useOuo === 'true';
-            const finalUrl = useOuo 
-                ? `http://ouo.io/qs/iLw8gjsf?s=${encodeURIComponent(url)}`
-                : url;
-            window.open(finalUrl, '_blank');
-        });
-    });
-
-document.querySelectorAll('.popup-button-secondary').forEach(button => {
-    button.addEventListener('click', function() {
-        const refcode = this.dataset.refcode;
-        copyRefCode(this, refcode);
-    });
-});
   
     function showPopup(link) {
 	const useOuo = true;
@@ -456,13 +436,10 @@ document.querySelectorAll('.popup-button-secondary').forEach(button => {
                 <p class="popup-description">${link.description || 'No description available.'}</p>
                 <div class="popup-images" style="display: flex; overflow-x: auto; gap: 1rem; padding-bottom: 1rem;"></div>
                 <div class="popup-buttons">
-    <button class="popup-button popup-button-primary" 
-        onclick="window.open(window.useOuo ? 'http://ouo.io/qs/iLw8gjsf?s=${link.url}' : '${link.url.replace(/'/g, "\\'")}', '_blank')">
-        Go to Link
-    </button>
+		    <button class="popup-button popup-button-primary" onclick="window.open('http://ouo.io/qs/iLw8gjsf?s=${link.url}', '_blank')">Go to Link</button>
     ${link.refcode ? `
         <button class="popup-button popup-button-secondary" 
-            onclick="copyRefCode(this, '${link.refcode.replace(/'/g, "\\'")}')">
+            onclick="copyRefCode(this, '${link.refcode}')">
             Copy Code: ${link.refcode}
         </button>` 
     : ''}
