@@ -366,7 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     function adjustBodyHeight() {
-        const containerHeight = container.offsetHeight;
+        const containerHeight = container.offsetHeight + 25;
         document.body.style.height = `${containerHeight}px`;
     }
     setInterval(() => adjustBodyHeight(), 2000);
