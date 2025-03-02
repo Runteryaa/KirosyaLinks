@@ -423,6 +423,23 @@ document.addEventListener('DOMContentLoaded', () => {
 	adjustBodyHeight();
     }
 
+    document.querySelectorAll('.popup-button-primary').forEach(button => {
+        button.addEventListener('click', function() {
+            const url = this.dataset.url;
+            const useOuo = this.dataset.useOuo === 'true';
+            const finalUrl = useOuo 
+                ? `http://ouo.io/qs/iLw8gjsf?s=${encodeURIComponent(url)}`
+                : url;
+            window.open(finalUrl, '_blank');
+        });
+    });
+
+document.querySelectorAll('.popup-button-secondary').forEach(button => {
+    button.addEventListener('click', function() {
+        const refcode = this.dataset.refcode;
+        copyRefCode(this, refcode);
+    });
+});
   
     function showPopup(link) {
 	const useOuo = true;
