@@ -95,7 +95,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     function showPopup(link) {
-	const useOuo = true;
+	    const useOuo = true;
+        let popupgolink = ''
+        if (useOuo === false) {
+            popupgolink = link.url
+            console.log(popupgolink)
+        }
+        if (useOuo === true) {
+            popupgolink = 'http://ouo.io/qs/iLw8gjsf?s='+ link.url
+            console.log(popupgolink)
+        }
         const popup = document.createElement('div');
         popup.className = 'popup';
         popup.innerHTML = `
@@ -107,14 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="popup-description">${link.description || 'No description available.'}</p>
                 <div class="popup-images" style="display: flex; overflow-x: auto; gap: 1rem; padding-bottom: 1rem;"></div>
                 <div class="popup-buttons">
-		    <button class="popup-button popup-button-primary" onclick="window.open('http://ouo.io/qs/iLw8gjsf?s=${link.url}', '_blank')">Go to Link</button>
-    ${link.refcode ? `
-        <button class="popup-button popup-button-secondary" 
-            onclick="copyRefCode(this, '${link.refcode}')">
-            Copy Code: ${link.refcode}
-        </button>` 
-    : ''}
-</div>
+		            <button class="popup-button popup-button-primary" onclick="window.open('${popupgolink}', '_blank')">Go to Link</button>
+                    ${link.refcode ? `<button class="popup-button popup-button-secondary" onclick="copyRefCode(this, '${link.refcode}')">Copy Code: ${link.refcode}</button>` : ''}
+                </div>
             </div>`;
         if (link.imgs && link.imgs.length > 0) {
             const imageContainer = popup.querySelector('.popup-images');
