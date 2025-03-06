@@ -223,3 +223,9 @@ padding: .5rem;
 .popup-button-secondary:hover {
     background-color: #d1d5db;
 }
+
+.multiplexad {
+    display:inline-block;
+    width:360px;
+    height:500px
+}
