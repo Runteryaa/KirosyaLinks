@@ -66,44 +66,63 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function displayLinks(links) {
-        linksContainer.innerHTML = '';
-        if (links.length === 0) {
-            linksContainer.innerHTML = '<p>No links found.</p>';
-            return;
-        }
-    
-        links.forEach((link, index) => {
-            const linkButton = document.createElement('button');
-            linkButton.className = 'link-button';
-    
-            const buttonContent = document.createElement('div');
-            buttonContent.style.display = 'flex';
-            buttonContent.style.alignItems = 'center';
-    
-            if (link.url) {
-                const favicon = document.createElement('img');
-                favicon.src = `https://www.google.com/s2/favicons?sz=64&domain=${link.url}`;
-                favicon.alt = 'Favicon';
-                favicon.style.width = '24px';
-                favicon.style.height = '24px';
-                favicon.style.marginRight = '0.5rem';
-                buttonContent.appendChild(favicon);
-            }
-    
-            buttonContent.appendChild(document.createTextNode(link.title));
-            linkButton.appendChild(buttonContent);
-            linkButton.addEventListener('click', () => showPopup(link));
-            linksContainer.appendChild(linkButton);
-    
-            if ((index + 1) % 5 === 0) {
-            const elmaParagraph = document.createElement('p');
-            elmaParagraph.textContent = 'elma';
-            linksContainer.appendChild(elmaParagraph);
-        }
-        });
-    
-        adjustBodyHeight();
+    linksContainer.innerHTML = '';
+    if (links.length === 0) {
+        linksContainer.innerHTML = '<p>No links found.</p>';
+        return;
     }
+
+    links.forEach((link, index) => {
+        const linkButton = document.createElement('button');
+        linkButton.className = 'link-button';
+
+        const buttonContent = document.createElement('div');
+        buttonContent.style.display = 'flex';
+        buttonContent.style.alignItems = 'center';
+
+        if (link.url) {
+            const favicon = document.createElement('img');
+            favicon.src = `https://www.google.com/s2/favicons?sz=64&domain=${link.url}`;
+            favicon.alt = 'Favicon';
+            favicon.style.width = '24px';
+            favicon.style.height = '24px';
+            favicon.style.marginRight = '0.5rem';
+            buttonContent.appendChild(favicon);
+        }
+
+        buttonContent.appendChild(document.createTextNode(link.title));
+        linkButton.appendChild(buttonContent);
+        linkButton.addEventListener('click', () => showPopup(link));
+        linksContainer.appendChild(linkButton);
+
+        if ((index + 1) % 5 === 0) {
+            const adContainer = document.createElement('div');
+            adContainer.innerHTML = `
+                <ins class="adsbygoogle"
+                    style="display:inline-block;width:360px;height:500px"
+                    data-ad-client="ca-pub-9944004180654653"
+                    data-ad-slot="3641520661"></ins>
+            `;
+            linksContainer.appendChild(adContainer);
+
+            if (!window.adsbygoogle) {
+                const script = document.createElement('script');
+                script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+                script.async = true;
+                script.crossOrigin = "anonymous";
+                script.dataset.adClient = "ca-pub-9944004180654653";
+                document.head.appendChild(script);
+            }
+
+            setTimeout(() => {
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+            }, 500);
+        }
+    });
+
+    adjustBodyHeight();
+}
+
     
   
     function showPopup(link) {
