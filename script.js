@@ -96,14 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
             linksContainer.appendChild(linkButton);
     
             if ((index + 1) % 5 === 0) {
-                const adContainer = document.createElement('div');
-                adContainer.innerHTML = `
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9944004180654653" crossorigin="anonymous"></script>
-                    <ins class="adsbygoogle" style="display:inline-block;width:360px;height:500px" data-ad-client="ca-pub-9944004180654653" data-ad-slot="3641520661"></ins>
-                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-                `;
-                linksContainer.appendChild(adContainer);
-            }
+            const elmaParagraph = document.createElement('p');
+            elmaParagraph.textContent = 'elma';
+            linksContainer.appendChild(elmaParagraph);
+        }
         });
     
         adjustBodyHeight();
