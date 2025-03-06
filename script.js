@@ -71,12 +71,15 @@ document.addEventListener('DOMContentLoaded', () => {
             linksContainer.innerHTML = '<p>No links found.</p>';
             return;
         }
-        links.forEach(link => {
+    
+        links.forEach((link, index) => {
             const linkButton = document.createElement('button');
             linkButton.className = 'link-button';
+    
             const buttonContent = document.createElement('div');
             buttonContent.style.display = 'flex';
             buttonContent.style.alignItems = 'center';
+    
             if (link.url) {
                 const favicon = document.createElement('img');
                 favicon.src = `https://www.google.com/s2/favicons?sz=64&domain=${link.url}`;
@@ -86,23 +89,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 favicon.style.marginRight = '0.5rem';
                 buttonContent.appendChild(favicon);
             }
+    
             buttonContent.appendChild(document.createTextNode(link.title));
             linkButton.appendChild(buttonContent);
             linkButton.addEventListener('click', () => showPopup(link));
             linksContainer.appendChild(linkButton);
-
+    
             if ((index + 1) % 5 === 0) {
                 const adContainer = document.createElement('div');
                 adContainer.innerHTML = `
                     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9944004180654653" crossorigin="anonymous"></script>
-                    <ins class="adsbygoogle" style="display:inline-block;width:360px;height:300px" data-ad-client="ca-pub-9944004180654653" data-ad-slot="3641520661"></ins>
+                    <ins class="adsbygoogle" style="display:inline-block;width:360px;height:500px" data-ad-client="ca-pub-9944004180654653" data-ad-slot="3641520661"></ins>
                     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                 `;
                 linksContainer.appendChild(adContainer);
             }
         });
-	adjustBodyHeight();
+    
+        adjustBodyHeight();
     }
+    
   
     function showPopup(link) {
         let useOuo = (typeof window.useOuo !== "undefined") ? window.useOuo : true;
