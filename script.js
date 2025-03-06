@@ -90,21 +90,28 @@ document.addEventListener('DOMContentLoaded', () => {
             linkButton.appendChild(buttonContent);
             linkButton.addEventListener('click', () => showPopup(link));
             linksContainer.appendChild(linkButton);
+
+            if ((index + 1) % 5 === 0) {
+                const adContainer = document.createElement('div');
+                adContainer.innerHTML = `
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9944004180654653" crossorigin="anonymous"></script>
+                    <ins class="adsbygoogle" style="display:inline-block;width:360px;height:300px" data-ad-client="ca-pub-9944004180654653" data-ad-slot="3641520661"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                `;
+                linksContainer.appendChild(adContainer);
+            }
         });
 	adjustBodyHeight();
     }
   
     function showPopup(link) {
-	    const useOuo = true;
-        let popupgolink = ''
-        if (useOuo === false) {
-            popupgolink = link.url
-            console.log(popupgolink)
-        }
-        if (useOuo === true) {
-            popupgolink = 'http://ouo.io/qs/iLw8gjsf?s='+ link.url
-            console.log(popupgolink)
-        }
+        let useOuo = (typeof window.useOuo !== "undefined") ? window.useOuo : true;
+        
+    
+        let popupgolink = useOuo 
+        ? 'http://ouo.io/qs/iLw8gjsf?s=' + encodeURIComponent(link.url)
+        : link.url;
+    
         const popup = document.createElement('div');
         popup.className = 'popup';
         popup.innerHTML = `
@@ -137,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const closeButton = popup.querySelector('.popup-close');
         closeButton.addEventListener('click', () => popup.remove());
-	adjustBodyHeight();
+	    adjustBodyHeight();
     }
 
     function copyRefCode(button, refcode) {
